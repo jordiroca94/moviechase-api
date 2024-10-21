@@ -14,13 +14,43 @@ package main
 // 6.3 GET /profile: A protected route that returns the logged-in user's details based on the JWT.
 
 import (
+	"database/sql"
+	"log"
+
+	"github.com/go-sql-driver/mysql"
 	"github.com/jordiroca94/user-auth-api/cmd/api"
+	"github.com/jordiroca94/user-auth-api/config"
+	"github.com/jordiroca94/user-auth-api/db"
 )
 
 func main() {
-	server := api.NewAPIServer(":8080", nil)
-	if err := server.Run(); err != nil {
-		panic(err)
+	db, err := db.NewMySQLDB(mysql.Config{
+		User:                 config.Envs.DBUser,
+		Passwd:               config.Envs.DBPassword,
+		Addr:                 config.Envs.DBAdress,
+		DBName:               config.Envs.DBName,
+		Net:                  "tcp",
+		AllowNativePasswords: true,
+		ParseTime:            true,
+	})
+	if err != nil {
+		log.Fatal(err)
 	}
 
+	initStorage(db)
+
+	server := api.NewAPIServer(":8080", db)
+	if err := server.Run(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func initStorage(db *sql.DB) {
+	// Create user table
+	err := db.Ping()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("Successfully connected to the database")
 }
