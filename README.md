@@ -1,4 +1,4 @@
-# GO RESTful API
+# Moviechase API 
 
 GET /users{id}
 POST/register
