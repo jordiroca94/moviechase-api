@@ -7,10 +7,10 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
-	"github.com/jordiroca94/user-auth-api/config"
-	"github.com/jordiroca94/user-auth-api/service/auth"
-	"github.com/jordiroca94/user-auth-api/types"
-	"github.com/jordiroca94/user-auth-api/utils"
+	"github.com/jordiroca94/moviechase-api/config"
+	"github.com/jordiroca94/moviechase-api/service/auth"
+	"github.com/jordiroca94/moviechase-api/types"
+	"github.com/jordiroca94/moviechase-api/utils"
 )
 
 type Handler struct {

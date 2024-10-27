@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/gorilla/mux"
-	"github.com/jordiroca94/user-auth-api/types"
+	"github.com/jordiroca94/moviechase-api/types"
 )
 
 func TestingUserServiceHandlers(t *testing.T) {

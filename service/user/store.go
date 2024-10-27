@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/jordiroca94/user-auth-api/types"
+	"github.com/jordiroca94/moviechase-api/types"
 )
 
 type Store struct {

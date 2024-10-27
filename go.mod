@@ -1,4 +1,4 @@
-module github.com/jordiroca94/user-auth-api
+module github.com/jordiroca94/moviechase-api
 
 go 1.23.2
 

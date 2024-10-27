@@ -18,9 +18,9 @@ import (
 	"log"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/jordiroca94/user-auth-api/cmd/api"
-	"github.com/jordiroca94/user-auth-api/config"
-	"github.com/jordiroca94/user-auth-api/db"
+	"github.com/jordiroca94/moviechase-api/cmd/api"
+	"github.com/jordiroca94/moviechase-api/config"
+	"github.com/jordiroca94/moviechase-api/db"
 )
 
 func main() {

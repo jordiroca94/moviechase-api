@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/jordiroca94/user-auth-api/config"
+	"github.com/jordiroca94/moviechase-api/config"
 )
 
 func CreateJWT(secret []byte, userID int) (string, error) {

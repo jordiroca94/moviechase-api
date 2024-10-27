@@ -8,8 +8,8 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/jordiroca94/user-auth-api/config"
-	"github.com/jordiroca94/user-auth-api/db"
+	"github.com/jordiroca94/moviechase-api/config"
+	"github.com/jordiroca94/moviechase-api/db"
 )
 
 func main() {
