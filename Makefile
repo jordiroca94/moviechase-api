@@ -10,8 +10,8 @@ run: build
 migration:
 	@migrate create -ext sql -dir cmd/migrate/migrations $(filter-out $$@,$(MAKECMDGOALS))
 
-migrate-up:
+add-user-table-up:
 	@go run cmd/migrate/main.go up
 
-migrate-down:
+add-user-table-down:
 	@go run cmd/migrate/main.go down
