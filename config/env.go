@@ -24,12 +24,20 @@ var Envs = initConfig()
 func initConfig() Config {
 	godotenv.Load()
 	return Config{
+		// PublicHost:             getEnv("PUBLIC_HOST", ""),
+		// Port:                   getEnv("PORT", "8080"),
+		// DBUser:                 getEnv("DB_USER", ""),
+		// DBPassword:             getEnv("DB_PASSWORD", ""),
+		// DBAdress:               fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "3306")),
+		// DBName:                 getEnv("DB_NAME", ""),
+		// JWTSecret:              getEnv("JWT_SECRET", ""),
+		// JWTExpirationInSeconds: getEnvAsInt("JWT_EXP", 3600*24*7),
 		PublicHost:             getEnv("PUBLIC_HOST", ""),
 		Port:                   getEnv("PORT", "8080"),
-		DBUser:                 getEnv("DB_USER", ""),
-		DBPassword:             getEnv("DB_PASSWORD", ""),
-		DBAdress:               fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "3306")),
-		DBName:                 getEnv("DB_NAME", ""),
+		DBUser:                 getEnv("MYSQLUSER", ""),
+		DBPassword:             getEnv("MYSQL_ROOT_PASSWORD", ""),
+		DBAdress:               fmt.Sprintf("%s:%s", getEnv("MYSQL_HOST", ""), getEnv("MYSQL_PORT", "3306")),
+		DBName:                 getEnv("MYSQL_DATABASE", ""),
 		JWTSecret:              getEnv("JWT_SECRET", ""),
 		JWTExpirationInSeconds: getEnvAsInt("JWT_EXP", 3600*24*7),
 	}
