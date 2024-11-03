@@ -1,5 +1,5 @@
 build:
-	go build -o bin/moviechase-api cmd/main.go
+	go build -o bin/moviechase-api main.go
 
 test:
 	go test -v ./...
