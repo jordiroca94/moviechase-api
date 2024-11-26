@@ -72,3 +72,11 @@ func (s *Store) CreateUser(user *types.User) error {
 	}
 	return nil
 }
+
+func (s *Store) UpdateUser(userID int, newUserData *types.UpdateUserPayload) error {
+	_, err := s.db.Exec("UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE id = ?", newUserData.FirstName, newUserData.LastName, newUserData.Email, userID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
