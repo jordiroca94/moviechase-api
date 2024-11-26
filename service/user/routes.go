@@ -55,7 +55,7 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token, "email": u.Email, "name": u.FirstName, "surname": u.LastName})
+	utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token, "email": u.Email, "firstName": u.FirstName, "lastName": u.LastName})
 
 }
 
