@@ -57,7 +57,7 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token, "email": u.Email, "firstName": u.FirstName, "lastName": u.LastName, "id": strconv.Itoa(u.ID)})
+	utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token})
 
 }
 
@@ -101,7 +101,7 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
-	utils.WriteJSON(w, http.StatusCreated, map[string]string{"message": "user created"})
+	utils.WriteJSON(w, http.StatusCreated, map[string]string{"message": "User created successfully"})
 }
 
 func (h *Handler) handleUpdateUser(w http.ResponseWriter, r *http.Request) {
@@ -152,5 +152,5 @@ func (h *Handler) handleUpdateUser(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
-	utils.WriteJSON(w, http.StatusOK, map[string]string{"message": "user updated"})
+	utils.WriteJSON(w, http.StatusOK, map[string]string{"message": "User updated successfully"})
 }
