@@ -8,11 +8,14 @@ import (
 	"github.com/jordiroca94/moviechase-api/config"
 )
 
-func CreateJWT(secret []byte, userID int) (string, error) {
+func CreateJWT(secret []byte, userID int, email string, firstName string, lastName string) (string, error) {
 	expiration := time.Second * time.Duration(config.Envs.JWTExpirationInSeconds)
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userID":    strconv.Itoa(int(userID)),
+		"userEmail": email,
+		"firstName": firstName,
+		"lastName":  lastName,
 		"expiresAt": time.Now().Add(expiration).Unix(),
 	})
 

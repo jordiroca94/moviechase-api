@@ -51,7 +51,7 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	secret := []byte(config.Envs.JWTSecret)
-	token, err := auth.CreateJWT(secret, u.ID)
+	token, err := auth.CreateJWT(secret, u.ID, u.Email, u.FirstName, u.LastName)
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
