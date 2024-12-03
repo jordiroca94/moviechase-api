@@ -25,6 +25,7 @@ func NewHandler(store types.UserStore) *Handler {
 func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/login", h.handleLogin).Methods("POST")
 	router.HandleFunc("/register", h.handleRegister).Methods("POST")
+	router.HandleFunc("/user/{id}", h.handleGetUser).Methods("GET")
 	router.HandleFunc("/update/user/{id}", h.handleUpdateUser).Methods("POST")
 }
 
@@ -157,4 +158,21 @@ func (h *Handler) handleUpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.WriteJSON(w, http.StatusOK, map[string]string{"message": "User updated successfully"})
+}
+
+func (h *Handler) handleGetUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid user id"))
+	}
+
+	user, err := h.store.GetUserByID(idInt)
+	if err != nil {
+		utils.WriteError(w, http.StatusNotFound, fmt.Errorf("user not found"))
+		return
+	}
+	utils.WriteJSON(w, http.StatusOK, user)
 }
