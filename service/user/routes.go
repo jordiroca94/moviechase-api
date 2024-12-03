@@ -119,12 +119,6 @@ func (h *Handler) handleUpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := h.store.GetUserByEmail(payload.Email)
-	if err == nil {
-		utils.WriteError(w, http.StatusConflict, fmt.Errorf("user with email %s already exists", payload.Email))
-		return
-	}
-
 	//get user id from URL
 	vars := mux.Vars(r)
 	id := vars["id"]
@@ -135,10 +129,20 @@ func (h *Handler) handleUpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//get user from db
-	if _, err := h.store.GetUserByID(idInt); err != nil {
+	user, err := h.store.GetUserByID(idInt)
+	if err != nil {
 		utils.WriteError(w, http.StatusNotFound, fmt.Errorf("user not found"))
 		return
 	}
+
+	if user.Email != payload.Email {
+		_, err := h.store.GetUserByEmail(payload.Email)
+		if err == nil {
+			utils.WriteError(w, http.StatusConflict, fmt.Errorf("user with email %s already exists", payload.Email))
+			return
+		}
+	}
+
 	//update user
 	updatePayload := &types.UpdateUserPayload{
 		FirstName: payload.FirstName,
