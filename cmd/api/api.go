@@ -42,8 +42,9 @@ func (s *APIServer) Run() error {
 	router := mux.NewRouter()
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
 
-	userStore := user.NewStore(s.db)
-	userHandler := user.NewHandler(userStore)
+	userRepository := user.NewUserrepository(s.db)
+	userService := user.NewUserService(userRepository)
+	userHandler := user.NewHandler(userService, userRepository)
 	userHandler.RegisterRoutes(subrouter)
 
 	fmt.Println("Server is running on port", s.addr)
