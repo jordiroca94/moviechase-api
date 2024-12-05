@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
@@ -62,21 +61,19 @@ func (h *UserHandler) handleLogin(w http.ResponseWriter, r *http.Request) {
 
 func (h *UserHandler) handleRegister(w http.ResponseWriter, r *http.Request) {
 
-	//get JSON payload
 	var payload types.RegisterUserPayload
 	if err := utils.ParseJson(r, &payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	// validate payload
+
 	if err := utils.Validate.Struct(payload); err != nil {
 		errors := err.(validator.ValidationErrors)
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload: %s", errors))
 		return
 	}
 
-	//Check if user exists
-	_, err := h.repository.GetUserByEmail(payload.Email)
+	_, err := h.service.GetUserByEmail(payload.Email)
 	if err == nil {
 		utils.WriteError(w, http.StatusConflict, fmt.Errorf("user with email %s already exists", payload.Email))
 		return
@@ -88,18 +85,12 @@ func (h *UserHandler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// if not create user
-	err = h.repository.CreateUser(&types.User{
-		FirstName: payload.FirstName,
-		LastName:  payload.LastName,
-		Email:     payload.Email,
-		Password:  hashedPassword,
-		CreatedAt: time.Now(),
-	})
+	err = h.service.CreateUser(payload, hashedPassword)
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
+
 	utils.WriteJSON(w, http.StatusCreated, map[string]string{"message": "User created successfully"})
 }
 

@@ -2,6 +2,7 @@ package user
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/jordiroca94/moviechase-api/service/auth"
 	"github.com/jordiroca94/moviechase-api/types"
@@ -31,4 +32,18 @@ func (s *UserService) CreateToken(secret []byte, id int, email string, firstName
 		return "", fmt.Errorf("user not found")
 	}
 	return token, nil
+}
+
+func (s *UserService) CreateUser(user types.RegisterUserPayload, hashedPassword string) error {
+	err := s.repository.CreateUser(&types.User{
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Email:     user.Email,
+		Password:  hashedPassword,
+		CreatedAt: time.Now(),
+	})
+	if err != nil {
+		return fmt.Errorf("user not found")
+	}
+	return nil
 }
