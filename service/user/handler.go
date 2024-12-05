@@ -25,20 +25,13 @@ func NewHandler(service *UserService, repository types.UserStore) *UserHandler {
 		repository: repository}
 }
 
-func (h *UserHandler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/login", h.handleLogin).Methods("POST")
-	router.HandleFunc("/register", h.handleRegister).Methods("POST")
-	router.HandleFunc("/user/{id}", h.handleGetUser).Methods("GET")
-	router.HandleFunc("/update/user/{id}", h.handleUpdateUser).Methods("POST")
-}
-
 func (h *UserHandler) handleLogin(w http.ResponseWriter, r *http.Request) {
 	var payload types.LoginUserPayload
 	if err := utils.ParseJson(r, &payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	//validate the payload
+
 	if err := utils.Validate.Struct(payload); err != nil {
 		errors := err.(validator.ValidationErrors)
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload: %s", errors))

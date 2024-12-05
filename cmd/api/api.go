@@ -45,7 +45,7 @@ func (s *APIServer) Run() error {
 	userRepository := user.NewUserrepository(s.db)
 	userService := user.NewUserService(userRepository)
 	userHandler := user.NewHandler(userService, userRepository)
-	userHandler.RegisterRoutes(subrouter)
+	user.RegisterUserRoutes(subrouter, userHandler)
 
 	fmt.Println("Server is running on port", s.addr)
 
