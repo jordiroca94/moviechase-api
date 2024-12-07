@@ -29,7 +29,7 @@ func (s *UserService) GetUserByEmail(email string) (*types.User, error) {
 func (s *UserService) CreateToken(secret []byte, id int, email string, firstName string, lastName string) (string, error) {
 	token, err := auth.CreateJWT(secret, id, email, firstName, lastName)
 	if err != nil {
-		return "", fmt.Errorf("user not found")
+		return "", fmt.Errorf("error creating token")
 	}
 	return token, nil
 }
@@ -43,7 +43,31 @@ func (s *UserService) CreateUser(user types.RegisterUserPayload, hashedPassword 
 		CreatedAt: time.Now(),
 	})
 	if err != nil {
-		return fmt.Errorf("user not found")
+		return fmt.Errorf("error creating user")
 	}
+	return nil
+}
+
+func (s *UserService) GetUserByID(id int) (*types.User, error) {
+
+	user, err := s.repository.GetUserByID(id)
+	if err != nil {
+		return nil, fmt.Errorf("user not found")
+	}
+	return user, nil
+}
+
+func (s *UserService) UpdateUser(id int, user types.UpdateUserPayload) error {
+	updatePayload := &types.UpdateUserPayload{
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Email:     user.Email,
+	}
+
+	err := s.repository.UpdateUser(id, updatePayload)
+	if err != nil {
+		return fmt.Errorf("error updating user")
+	}
+
 	return nil
 }
