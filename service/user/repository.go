@@ -80,3 +80,11 @@ func (r *UserRepository) UpdateUser(userID int, newUserData *types.UpdateUserPay
 	}
 	return nil
 }
+
+func (r *UserRepository) DeleteUser(id int) error {
+	_, err := r.db.Exec("DELETE FROM users WHERE id = ?", id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

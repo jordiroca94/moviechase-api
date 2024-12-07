@@ -71,3 +71,11 @@ func (s *UserService) UpdateUser(id int, user types.UpdateUserPayload) error {
 
 	return nil
 }
+
+func (s *UserService) DeleteUser(id int) error {
+	err := s.repository.DeleteUser(id)
+	if err != nil {
+		return fmt.Errorf("error deleting user")
+	}
+	return nil
+}

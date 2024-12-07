@@ -14,14 +14,13 @@ import (
 )
 
 type UserHandler struct {
-	service    *UserService
-	repository types.UserStore
+	service *UserService
 }
 
-func NewHandler(service *UserService, repository types.UserStore) *UserHandler {
+func NewHandler(service *UserService) *UserHandler {
 	return &UserHandler{
-		service:    service,
-		repository: repository}
+		service: service,
+	}
 }
 
 func (h *UserHandler) handleLogin(w http.ResponseWriter, r *http.Request) {
@@ -153,4 +152,28 @@ func (h *UserHandler) handleGetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.WriteJSON(w, http.StatusOK, user)
+}
+
+func (h *UserHandler) handleDeleteUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid user id"))
+	}
+
+	_, err = h.service.GetUserByID(idInt)
+	if err != nil {
+		utils.WriteError(w, http.StatusNotFound, fmt.Errorf("user not found"))
+		return
+	}
+
+	err = h.service.DeleteUser(idInt)
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	utils.WriteJSON(w, http.StatusOK, map[string]string{"message": "User deleted successfully"})
 }

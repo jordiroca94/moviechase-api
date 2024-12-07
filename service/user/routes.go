@@ -9,4 +9,5 @@ func RegisterUserRoutes(router *mux.Router, handler *UserHandler) {
 	router.HandleFunc("/register", handler.handleRegister).Methods("POST")
 	router.HandleFunc("/user/{id}", handler.handleGetUser).Methods("GET")
 	router.HandleFunc("/user/update/{id}", handler.handleUpdateUser).Methods("POST")
+	router.HandleFunc("/user/delete/{id}", handler.handleDeleteUser).Methods("DELETE")
 }
