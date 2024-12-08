@@ -29,3 +29,11 @@ func (r *FavouritesRespository) GetFavouriteByMovieIDAndUserID(favourite types.F
 	}
 	return nil
 }
+
+func (r *FavouritesRespository) DeleteFavourite(favourite types.FavouritesPayload) error {
+	_, err := r.db.Exec("DELETE FROM favourites WHERE id = ? AND userId = ? AND type = ?", favourite.ID, favourite.UserID, favourite.Type)
+	if err != nil {
+		return err
+	}
+	return nil
+}

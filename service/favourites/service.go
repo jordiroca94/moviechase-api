@@ -27,3 +27,11 @@ func (s *FavouritesService) GetFavouriteByMovieIDAndUserID(payload types.Favouri
 	}
 	return nil
 }
+
+func (s *FavouritesService) DeleteFavourite(favourite types.FavouritesPayload) error {
+	err := s.repository.DeleteFavourite(favourite)
+	if err != nil {
+		return err
+	}
+	return nil
+}
