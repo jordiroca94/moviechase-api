@@ -38,7 +38,7 @@ type FavouritesPayload struct {
 type FavouritesType string
 
 const (
-	MoviesType FavouritesType = "movies"
-	ShowsType  FavouritesType = "shows"
+	MoviesType FavouritesType = "movie"
+	ShowsType  FavouritesType = "show"
 	PeopleType FavouritesType = "people"
 )
