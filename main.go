@@ -33,7 +33,6 @@ func main() {
 }
 
 func initStorage(db *sql.DB) {
-	// Create user table
 	err := db.Ping()
 	if err != nil {
 		log.Fatal(err)
