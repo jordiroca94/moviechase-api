@@ -2,13 +2,6 @@ package types
 
 import "time"
 
-type UserStore interface {
-	GetUserByEmail(email string) (*User, error)
-	GetUserByID(id int) (*User, error)
-	CreateUser(user *User) error
-	UpdateUser(id int, user *UpdateUserPayload) error
-}
-
 type User struct {
 	ID        int       `json:"id"`
 	FirstName string    `json:"first_name"`
@@ -35,3 +28,17 @@ type UpdateUserPayload struct {
 	LastName  string `json:"last_name" validate:"required"`
 	Email     string `json:"email" validate:"required,email"`
 }
+
+type FavouritesPayload struct {
+	ID     int            `json:"id" validate:"required"`
+	UserID int            `json:"user_id" validate:"required"`
+	Type   FavouritesType `json:"type" validate:"required"`
+}
+
+type FavouritesType string
+
+const (
+	MoviesType FavouritesType = "movies"
+	ShowsType  FavouritesType = "shows"
+	PeopleType FavouritesType = "people"
+)

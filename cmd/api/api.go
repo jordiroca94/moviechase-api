@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/jordiroca94/moviechase-api/service/favourites"
 	"github.com/jordiroca94/moviechase-api/service/user"
 )
 
@@ -46,6 +47,11 @@ func (s *APIServer) Run() error {
 	userService := user.NewUserService(userRepository)
 	userHandler := user.NewHandler(userService)
 	user.RegisterUserRoutes(subrouter, userHandler)
+
+	favouritesRepository := favourites.NewFavouritesRepository(s.db)
+	favouritesService := favourites.NewFavouritesService(favouritesRepository)
+	favouritesHandler := favourites.NewHandler(favouritesService)
+	favourites.RegisterFavouritesRoutes(subrouter, favouritesHandler)
 
 	fmt.Println("Server is running on port", s.addr)
 
