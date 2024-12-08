@@ -83,3 +83,24 @@ func (h *FavouritesHandler) handleDeleteFavourite(w http.ResponseWriter, r *http
 	}
 	utils.WriteJSON(w, http.StatusOK, map[string]string{"message": "removed from favourites successfully"})
 }
+
+func (h *FavouritesHandler) handleGetFavourites(w http.ResponseWriter, r *http.Request) {
+	userID, err := strconv.Atoi(r.URL.Query().Get("user_id"))
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid user_id"))
+		return
+	}
+
+	typeFav := r.URL.Query().Get("type")
+	if types.FavouritesType(typeFav) != types.MoviesType && types.FavouritesType(typeFav) != types.ShowsType && types.FavouritesType(typeFav) != types.PeopleType {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("%s is an invalid type", typeFav))
+		return
+	}
+
+	favourites, err := h.service.GetFavouritesByUserID(userID, typeFav)
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+	utils.WriteJSON(w, http.StatusOK, favourites)
+}

@@ -35,3 +35,11 @@ func (s *FavouritesService) DeleteFavourite(favourite types.FavouritesPayload) e
 	}
 	return nil
 }
+
+func (s *FavouritesService) GetFavouritesByUserID(userID int, typeFav string) ([]types.FavouritesPayload, error) {
+	favourites, err := s.repository.GetFavouritesByUserID(userID, typeFav)
+	if err != nil {
+		return nil, err
+	}
+	return favourites, nil
+}

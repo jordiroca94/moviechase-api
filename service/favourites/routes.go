@@ -7,4 +7,5 @@ import (
 func RegisterFavouritesRoutes(router *mux.Router, handler *FavouritesHandler) {
 	router.HandleFunc("/favourites/add", handler.handleAddFavourite).Methods("POST")
 	router.HandleFunc("/favourites/delete", handler.handleDeleteFavourite).Methods("DELETE")
+	router.HandleFunc("/favourites", handler.handleGetFavourites).Methods("GET")
 }

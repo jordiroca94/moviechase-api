@@ -37,3 +37,22 @@ func (r *FavouritesRespository) DeleteFavourite(favourite types.FavouritesPayloa
 	}
 	return nil
 }
+
+// GetFavouritesByUserID with type as a parameter to get all favourites of a user
+func (r *FavouritesRespository) GetFavouritesByUserID(userID int, typeFav string) ([]types.FavouritesPayload, error) {
+	rows, err := r.db.Query("SELECT * FROM favourites WHERE userId = ? AND type = ?", userID, typeFav)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var favourites []types.FavouritesPayload
+	for rows.Next() {
+		var fav types.FavouritesPayload
+		err := rows.Scan(&fav.UserID, &fav.ID, &fav.Type)
+		if err != nil {
+			return nil, err
+		}
+		favourites = append(favourites, fav)
+	}
+	return favourites, nil
+}
