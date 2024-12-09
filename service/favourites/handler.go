@@ -104,3 +104,30 @@ func (h *FavouritesHandler) handleGetFavourites(w http.ResponseWriter, r *http.R
 	}
 	utils.WriteJSON(w, http.StatusOK, favourites)
 }
+
+func (h *FavouritesHandler) handleGetFavourite(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid user_id"))
+		return
+	}
+
+	userID, err := strconv.Atoi(r.URL.Query().Get("user_id"))
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid user_id"))
+		return
+	}
+
+	typeFav := r.URL.Query().Get("type")
+	if types.FavouritesType(typeFav) != types.MoviesType && types.FavouritesType(typeFav) != types.ShowsType && types.FavouritesType(typeFav) != types.PeopleType {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("%s is an invalid type", typeFav))
+		return
+	}
+
+	favourite, err := h.service.GetFavourite(id, userID, types.FavouritesType(typeFav))
+	if err != nil {
+		utils.WriteError(w, http.StatusNotFound, fmt.Errorf("%s with id %s is not in favourites", typeFav, strconv.Itoa(id)))
+		return
+	}
+	utils.WriteJSON(w, http.StatusOK, favourite)
+}

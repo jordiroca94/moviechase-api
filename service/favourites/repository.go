@@ -22,12 +22,15 @@ func (r *FavouritesRespository) AddFavourite(favourite types.FavouritesPayload) 
 	return nil
 }
 
-func (r *FavouritesRespository) GetFavouriteByMovieIDAndUserID(favourite types.FavouritesPayload) error {
-	err := r.db.QueryRow("SELECT * FROM favourites WHERE id = ? AND userId = ? AND type = ?", favourite.ID, favourite.UserID, favourite.Type).Scan(&favourite.UserID, &favourite.ID, &favourite.Type)
+func (r *FavouritesRespository) GetFavouriteByMovieIDAndUserID(favourite types.FavouritesPayload) (*types.FavouritesPayload, error) {
+	var result types.FavouritesPayload
+	err := r.db.QueryRow("SELECT userId, id, type FROM favourites WHERE id = ? AND userId = ? AND type = ?",
+		favourite.ID, favourite.UserID, favourite.Type).
+		Scan(&result.UserID, &result.ID, &result.Type)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return &result, nil
 }
 
 func (r *FavouritesRespository) DeleteFavourite(favourite types.FavouritesPayload) error {

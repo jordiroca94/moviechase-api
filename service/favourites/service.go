@@ -21,7 +21,7 @@ func (s *FavouritesService) AddFavourite(favourite types.FavouritesPayload) erro
 }
 
 func (s *FavouritesService) GetFavouriteByMovieIDAndUserID(payload types.FavouritesPayload) error {
-	err := s.repository.GetFavouriteByMovieIDAndUserID(payload)
+	_, err := s.repository.GetFavouriteByMovieIDAndUserID(payload)
 	if err != nil {
 		return err
 	}
@@ -42,4 +42,18 @@ func (s *FavouritesService) GetFavouritesByUserID(userID int, typeFav string) ([
 		return nil, err
 	}
 	return favourites, nil
+}
+
+func (s *FavouritesService) GetFavourite(id int, userId int, favType types.FavouritesType) (*types.FavouritesPayload, error) {
+
+	favourite := types.FavouritesPayload{
+		ID:     id,
+		UserID: userId,
+		Type:   favType,
+	}
+	result, err := s.repository.GetFavouriteByMovieIDAndUserID(favourite)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }
