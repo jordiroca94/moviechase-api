@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jordiroca94/moviechase-api/service/favourites"
 	"github.com/jordiroca94/moviechase-api/service/user"
+	"github.com/jordiroca94/moviechase-api/service/wishlist"
 )
 
 type APIServer struct {
@@ -53,6 +54,11 @@ func (s *APIServer) Run() error {
 	favouritesService := favourites.NewFavouritesService(favouritesRepository)
 	favouritesHandler := favourites.NewHandler(favouritesService)
 	favourites.RegisterFavouritesRoutes(subrouter, favouritesHandler)
+
+	wishlistRepository := wishlist.NewWishlistRepository(s.db)
+	wishlistService := wishlist.NewWishlistService(wishlistRepository)
+	wishlistHandler := wishlist.NewHandler(wishlistService)
+	wishlist.RegisterWishlistRoutes(subrouter, wishlistHandler)
 
 	router.HandleFunc("/routes", func(w http.ResponseWriter, r *http.Request) {
 		var routes []map[string]string
