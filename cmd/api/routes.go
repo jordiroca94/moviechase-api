@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jordiroca94/moviechase-api/service/favourites"
 	"github.com/jordiroca94/moviechase-api/service/user"
-	"github.com/jordiroca94/moviechase-api/service/wishlist"
+	"github.com/jordiroca94/moviechase-api/service/watchlist"
 )
 
 func RegisterRoutes(router *mux.Router, db *sql.DB) {
@@ -22,8 +22,8 @@ func RegisterRoutes(router *mux.Router, db *sql.DB) {
 	favouritesHandler := favourites.NewHandler(favouritesService)
 	favourites.RegisterFavouritesRoutes(subrouter, favouritesHandler)
 
-	wishlistRepository := wishlist.NewWishlistRepository(db)
-	wishlistService := wishlist.NewWishlistService(wishlistRepository)
-	wishlistHandler := wishlist.NewHandler(wishlistService)
-	wishlist.RegisterWishlistRoutes(subrouter, wishlistHandler)
+	watchlistRepository := watchlist.NewWatchlistRepository(db)
+	watchlistService := watchlist.NewWatchlistService(watchlistRepository)
+	watchlistHandler := watchlist.NewHandler(watchlistService)
+	watchlist.RegisterWatchlistRoutes(subrouter, watchlistHandler)
 }
