@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -24,9 +25,14 @@ func NewAPIServer(addr string, db *sql.DB) *APIServer {
 // Middleware function for handling CORS
 func enableCors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Incoming Request - Method: %s, Path: %s, Origin: %s", r.Method, r.URL.Path, r.Header.Get("Origin"))
+
 		w.Header().Set("Access-Control-Allow-Origin", "https://moviechase.vercel.app")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		log.Println("Adding CORS headers:")
+		log.Printf("Access-Control-Allow-Origin: %s", w.Header().Get("Access-Control-Allow-Origin"))
 
 		// If it's a preflight request, we end it here
 		if r.Method == "OPTIONS" {
