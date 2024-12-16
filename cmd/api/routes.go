@@ -27,6 +27,4 @@ func RegisterRoutes(router *mux.Router, db *sql.DB) {
 	watchlistHandler := watchlist.NewHandler(watchlistService)
 	watchlist.RegisterWatchlistRoutes(subrouter, watchlistHandler)
 
-	router.PathPrefix("/api/v1").Handler(enableCors(subrouter))
-
 }
