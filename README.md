@@ -27,22 +27,23 @@ This API serves as the backend for user authentication and management, as well a
 ## Database Schema
 
 ### Users Table
-- `id` (Primary Key)
-- `name`
+- `id`
+- `firstName`
+- `lastName`
 - `email`
-- `password_hash`
+- `password`
+- `createdAt`
+
 
 ### Favourites Table
-- `id` (Primary Key)
-- `user_id` (Foreign Key)
-- `item_id`
-- `item_type`
+- `userId` 
+- `id`
+- `type`
 
 ### Watchlist Table
-- `id` (Primary Key)
-- `user_id` (Foreign Key)
-- `item_id`
-- `item_type`
+- `userId` 
+- `id`
+- `type`
 
 
 ## Security
