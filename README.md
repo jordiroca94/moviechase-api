@@ -2,7 +2,6 @@
 
 This API serves as the backend for user authentication and management, as well as handling user-specific lists like favourites and watchlists. The database used is MySQL, and the API supports JSON Web Tokens (JWT) for secure user sessions.
 
----
 
 ## Features
 
@@ -11,7 +10,6 @@ This API serves as the backend for user authentication and management, as well a
 - **Favourites Management**: Add, delete, and retrieve user favourites.
 - **Watchlist Management**: Add, delete, and retrieve user watchlists.
 
----
 
 ## Prerequisites
 
@@ -25,7 +23,6 @@ This API serves as the backend for user authentication and management, as well a
   - `DB_NAME` - MySQL database name.
   - `JWT_SECRET` - Secret key for signing JWTs.
 
----
 
 ## Database Schema
 
@@ -47,14 +44,12 @@ This API serves as the backend for user authentication and management, as well a
 - `item_id`
 - `item_type`
 
----
 
 ## Security
 
 - **Password Hashing**: User passwords are hashed using a secure algorithm.
 - **JWT**: Access to protected endpoints requires a valid JWT in the `Authorization` header.
 
----
 
 ## License
 
