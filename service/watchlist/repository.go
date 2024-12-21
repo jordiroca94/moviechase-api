@@ -41,8 +41,8 @@ func (r *WatchlistRespository) DeleteWatched(watched types.FavouritesPayload) er
 	return nil
 }
 
-func (r *WatchlistRespository) GetWatchlistByUserID(userID int, typeFav string) ([]types.FavouritesPayload, error) {
-	rows, err := r.db.Query("SELECT * FROM watchlist WHERE userId = ? AND type = ?", userID, typeFav)
+func (r *WatchlistRespository) GetWatchlistByUserID(userID int) ([]types.FavouritesPayload, error) {
+	rows, err := r.db.Query("SELECT * FROM watchlist WHERE userId = ?", userID)
 	if err != nil {
 		return nil, err
 	}

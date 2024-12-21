@@ -36,8 +36,8 @@ func (s *WatchlistService) DeleteWatched(watched types.FavouritesPayload) error 
 	return nil
 }
 
-func (s *WatchlistService) GetWatchlistByUserID(userID int, typeFav string) ([]types.FavouritesPayload, error) {
-	watchlist, err := s.repository.GetWatchlistByUserID(userID, typeFav)
+func (s *WatchlistService) GetWatchlistByUserID(userID int) ([]types.FavouritesPayload, error) {
+	watchlist, err := s.repository.GetWatchlistByUserID(userID)
 	if err != nil {
 		return nil, err
 	}

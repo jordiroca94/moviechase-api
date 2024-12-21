@@ -33,7 +33,7 @@ func (h *WatchlistHandler) handleAddWatched(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if payload.Type != types.MoviesType && payload.Type != types.ShowsType && payload.Type != types.PeopleType {
+	if payload.Type != types.MoviesType && payload.Type != types.ShowsType {
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("%s is an invalid type", payload.Type))
 		return
 	}
@@ -65,7 +65,7 @@ func (h *WatchlistHandler) handleDeleteWatched(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	if payload.Type != types.MoviesType && payload.Type != types.ShowsType && payload.Type != types.PeopleType {
+	if payload.Type != types.MoviesType && payload.Type != types.ShowsType {
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("%s is an invalid type", payload.Type))
 		return
 	}
@@ -91,13 +91,7 @@ func (h *WatchlistHandler) handleGetWatchlist(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	typeFav := r.URL.Query().Get("type")
-	if types.FavouritesType(typeFav) != types.MoviesType && types.FavouritesType(typeFav) != types.ShowsType && types.FavouritesType(typeFav) != types.PeopleType {
-		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("%s is an invalid type", typeFav))
-		return
-	}
-
-	watchlist, err := h.service.GetWatchlistByUserID(userID, typeFav)
+	watchlist, err := h.service.GetWatchlistByUserID(userID)
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
@@ -119,7 +113,7 @@ func (h *WatchlistHandler) handleGetWatched(w http.ResponseWriter, r *http.Reque
 	}
 
 	typeFav := r.URL.Query().Get("type")
-	if types.FavouritesType(typeFav) != types.MoviesType && types.FavouritesType(typeFav) != types.ShowsType && types.FavouritesType(typeFav) != types.PeopleType {
+	if types.FavouritesType(typeFav) != types.MoviesType && types.FavouritesType(typeFav) != types.ShowsType {
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("%s is an invalid type", typeFav))
 		return
 	}
