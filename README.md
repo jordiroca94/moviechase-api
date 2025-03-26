@@ -2,14 +2,14 @@
 
 This API serves as the backend for user authentication and management, as well as handling user-specific lists like favourites and watchlists. The database used is MySQL, and the API supports JSON Web Tokens (JWT) for secure user sessions.
 
-
 ## Features
 
 - **User Authentication**: Register, login, and manage user accounts securely ( edit & delete).
+- **Image Management**: Images.
 - **JWT Integration**: Secure endpoints with token-based authentication.
 - **Favourites Management**: Add, delete, and retrieve user favourites.
 - **Watchlist Management**: Add, delete, and retrieve user watchlists.
-
+- **Cloudinary Integration**: Upload and store user profile images in the cloud using Cloudinary.
 
 ## Prerequisites
 
@@ -23,36 +23,35 @@ This API serves as the backend for user authentication and management, as well a
   - `DB_NAME` - MySQL database name.
   - `JWT_SECRET` - Secret key for signing JWTs.
 
-
 ## Database Schema
 
 ### Users Table
+
 - `id`
 - `firstName`
 - `lastName`
 - `email`
 - `password`
 - `createdAt`
-
+- `image`
 
 ### Favourites Table
-- `userId` 
+
+- `userId`
 - `id`
 - `type`
 
 ### Watchlist Table
-- `userId` 
+
+- `userId`
 - `id`
 - `type`
-
 
 ## Security
 
 - **Password Hashing**: User passwords are hashed using a secure algorithm.
 - **JWT**: Access to protected endpoints requires a valid JWT in the `Authorization` header.
 
-
 ## License
 
 This project is licensed under the MIT License.
-

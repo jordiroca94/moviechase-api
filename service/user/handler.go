@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
+	"github.com/jordiroca94/moviechase-api/cloudinary"
 	"github.com/jordiroca94/moviechase-api/config"
 	"github.com/jordiroca94/moviechase-api/service/auth"
 	"github.com/jordiroca94/moviechase-api/types"
@@ -176,4 +177,55 @@ func (h *UserHandler) handleDeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	utils.WriteJSON(w, http.StatusOK, map[string]string{"message": "User deleted successfully"})
+}
+
+func (h *UserHandler) handleUpdateUserImage(w http.ResponseWriter, r *http.Request) {
+	// Parse multipart form (e.g., limit to 10 MB)
+	err := r.ParseMultipartForm(10 << 20)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("failed to parse form data: %v", err))
+		return
+	}
+
+	// Retrieve file from posted form-data
+	file, fileHeader, err := r.FormFile("image")
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("could not get uploaded file: %v", err))
+		return
+	}
+	defer file.Close()
+
+	// Parse user ID
+	vars := mux.Vars(r)
+	id := vars["id"]
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid user id"))
+		return
+	}
+
+	_, err = h.service.GetUserByID(idInt)
+	if err != nil {
+		utils.WriteError(w, http.StatusNotFound, fmt.Errorf("user not found"))
+		return
+	}
+
+	// Upload image to Cloudinary
+	uploadedURL, err := cloudinary.UploadToCloudinary(file, fileHeader.Filename)
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, fmt.Errorf("cloudinary upload failed: %v", err))
+		return
+	}
+
+	// Save image URL to DB
+	err = h.service.UpdateUserImage(idInt, uploadedURL)
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	utils.WriteJSON(w, http.StatusOK, map[string]string{
+		"message":  "Image updated successfully",
+		"imageUrl": uploadedURL,
+	})
 }

@@ -35,7 +35,7 @@ func (r *UserRepository) GetUserByEmail(email string) (*types.User, error) {
 
 func scanRowIntoUser(rows *sql.Rows) (*types.User, error) {
 	user := new(types.User)
-	err := rows.Scan(&user.ID, &user.FirstName, &user.LastName, &user.Email, &user.Password, &user.CreatedAt)
+	err := rows.Scan(&user.ID, &user.FirstName, &user.LastName, &user.Email, &user.Password, &user.CreatedAt, &user.Image)
 	if err != nil {
 		return nil, err
 	}
@@ -83,6 +83,14 @@ func (r *UserRepository) UpdateUser(userID int, newUserData *types.UpdateUserPay
 
 func (r *UserRepository) DeleteUser(id int) error {
 	_, err := r.db.Exec("DELETE FROM users WHERE id = ?", id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *UserRepository) UpdateUserImage(id int, image string) error {
+	_, err := r.db.Exec("UPDATE users SET image = ? WHERE id = ?", image, id)
 	if err != nil {
 		return err
 	}

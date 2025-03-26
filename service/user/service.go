@@ -41,6 +41,8 @@ func (s *UserService) CreateUser(user types.RegisterUserPayload, hashedPassword 
 		Email:     user.Email,
 		Password:  hashedPassword,
 		CreatedAt: time.Now(),
+		//A DEFAULT IMAGE
+		Image: "https://res.cloudinary.com/dgauzk80l/image/upload/v1743001082/profileplaceholder.png",
 	})
 	if err != nil {
 		return fmt.Errorf("error creating user")
@@ -76,6 +78,14 @@ func (s *UserService) DeleteUser(id int) error {
 	err := s.repository.DeleteUser(id)
 	if err != nil {
 		return fmt.Errorf("error deleting user")
+	}
+	return nil
+}
+
+func (s *UserService) UpdateUserImage(id int, image string) error {
+	err := s.repository.UpdateUserImage(id, image)
+	if err != nil {
+		return fmt.Errorf("error updating user image")
 	}
 	return nil
 }
