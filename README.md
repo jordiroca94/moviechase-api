@@ -5,7 +5,6 @@ This API serves as the backend for user authentication and management, as well a
 ## Features
 
 - **User Authentication**: Register, login, and manage user accounts securely ( edit & delete).
-- **Image Management**: Images.
 - **JWT Integration**: Secure endpoints with token-based authentication.
 - **Favourites Management**: Add, delete, and retrieve user favourites.
 - **Watchlist Management**: Add, delete, and retrieve user watchlists.

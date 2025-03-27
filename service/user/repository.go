@@ -65,8 +65,7 @@ func (r *UserRepository) GetUserByID(id int) (*types.User, error) {
 }
 
 func (r *UserRepository) CreateUser(user *types.User) error {
-
-	_, err := r.db.Exec("INSERT INTO users (firstName, lastName, email, password) VALUES (?, ?, ?, ?)", user.FirstName, user.LastName, user.Email, user.Password)
+	_, err := r.db.Exec("INSERT INTO users (firstName, lastName, email, password, image) VALUES (?, ?, ?, ?, ?)", user.FirstName, user.LastName, user.Email, user.Password, user.Image)
 	if err != nil {
 		return err
 	}

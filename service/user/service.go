@@ -41,8 +41,7 @@ func (s *UserService) CreateUser(user types.RegisterUserPayload, hashedPassword 
 		Email:     user.Email,
 		Password:  hashedPassword,
 		CreatedAt: time.Now(),
-		//A DEFAULT IMAGE
-		Image: "https://res.cloudinary.com/dgauzk80l/image/upload/v1743001082/profileplaceholder.png",
+		Image:     "https://res.cloudinary.com/dgauzk80l/image/upload/v1743001082/profileplaceholder.png",
 	})
 	if err != nil {
 		return fmt.Errorf("error creating user")
