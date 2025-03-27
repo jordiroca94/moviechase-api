@@ -152,6 +152,8 @@ func (h *UserHandler) handleGetUser(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusNotFound, fmt.Errorf("user not found"))
 		return
 	}
+	user.Password = ""
+
 	utils.WriteJSON(w, http.StatusOK, user)
 }
 
