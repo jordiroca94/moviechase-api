@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="assets/moviechase.png" alt="Moviechase Logo" width="500" height="500">
+</p>
+
 # Moviechase API
 
 This API serves as the backend for user authentication and management, as well as handling user-specific lists like favourites and watchlists. The database used is MySQL, and the API supports JSON Web Tokens (JWT) for secure user sessions.
