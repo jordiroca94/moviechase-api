@@ -5,6 +5,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jordiroca94/moviechase-api/service/favourites"
+	"github.com/jordiroca94/moviechase-api/service/recommend"
 	"github.com/jordiroca94/moviechase-api/service/user"
 	"github.com/jordiroca94/moviechase-api/service/watchlist"
 )
@@ -27,4 +28,6 @@ func RegisterRoutes(router *mux.Router, db *sql.DB) {
 	watchlistHandler := watchlist.NewHandler(watchlistService)
 	watchlist.RegisterWatchlistRoutes(subrouter, watchlistHandler)
 
+	recommendHandler := recommend.NewRecommendHandler()
+	recommend.RegisterRecommendRoutes(subrouter, recommendHandler)
 }
