@@ -13,6 +13,8 @@ This API serves as the backend for user authentication and management, as well a
 - **Favourites Management**: Add, delete, and retrieve user favourites.
 - **Watchlist Management**: Add, delete, and retrieve user watchlists.
 - **Cloudinary Integration**: Upload and store user profile images in the cloud using Cloudinary.
+- **OpenAI Integration**: Recommend similar movies and shows when a user enters the title of one they like.
+
 
 ## Prerequisites
 
@@ -25,36 +27,12 @@ This API serves as the backend for user authentication and management, as well a
   - `DB_PASSWORD` - MySQL password.
   - `DB_NAME` - MySQL database name.
   - `JWT_SECRET` - Secret key for signing JWTs.
+  - `JWT_SECRET` - Secret key for signing JWTs.
+  - `CLOUDINARY_URL` - Cloudinary connection string for uploading and managing profile images.
+  - `OPENAI_API_KEY` - API key used to access OpenAI services for generating recommendations.
 
-## Database Schema
-
-### Users Table
-
-- `id`
-- `firstName`
-- `lastName`
-- `email`
-- `password`
-- `createdAt`
-- `image`
-
-### Favourites Table
-
-- `userId`
-- `id`
-- `type`
-
-### Watchlist Table
-
-- `userId`
-- `id`
-- `type`
 
 ## Security
 
 - **Password Hashing**: User passwords are hashed using a secure algorithm.
 - **JWT**: Access to protected endpoints requires a valid JWT in the `Authorization` header.
-
-## License
-
-This project is licensed under the MIT License.
