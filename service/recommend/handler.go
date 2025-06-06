@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
 	"html/template"
 	"log"
 	"net/http"
@@ -77,15 +76,6 @@ func (h *RecommendHandler) handleGetRecommendation(w http.ResponseWriter, r *htt
 			},
 		},
 		MaxTokens: 1000,
-	}
-
-	log.Printf("OPENAI_API_KEY starts with: %s", apiKey[:5])
-	log.Printf("Rendered prompt: %s", renderedPrompt.String())
-	log.Printf("Calling OpenAI with model: %s", chatReq.Model)
-
-	var apiErr *openai.APIError
-	if errors.As(err, &apiErr) {
-		log.Printf("Status: %d | Type: %s | Message: %s\n", apiErr.HTTPStatusCode, apiErr.Type, apiErr.Message)
 	}
 
 	resp, err := client.CreateChatCompletion(ctx, chatReq)
