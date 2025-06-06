@@ -80,7 +80,7 @@ func (h *RecommendHandler) handleGetRecommendation(w http.ResponseWriter, r *htt
 	resp, err := client.CreateChatCompletion(ctx, chatReq)
 	if err != nil {
 		log.Printf("OpenAI API error: %v\n", err)
-		// http.Error(w, "OpenAI API error", http.StatusInternalServerError)
+		http.Error(w, "OpenAI API error", http.StatusInternalServerError)
 		return
 	}
 
