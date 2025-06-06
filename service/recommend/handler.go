@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/jordiroca94/moviechase-api/utils"
 	"github.com/sashabaranov/go-openai"
@@ -34,7 +35,7 @@ func (h *RecommendHandler) handleGetRecommendation(w http.ResponseWriter, r *htt
 		return
 	}
 
-	apiKey := os.Getenv("OPENAI_API_KEY")
+	apiKey := strings.TrimSpace(os.Getenv("OPENAI_API_KEY"))
 	if apiKey == "" {
 		log.Println("OPENAI_API_KEY not set")
 		http.Error(w, "Server configuration error", http.StatusInternalServerError)
