@@ -27,7 +27,6 @@ Your output must be a **valid JSON object** with exactly 3 movie recommendations
 - `genre`: A short list of genres  
 - `why_recommended`: A short explanation (1-2 sentences) of why this movie is a good pick  
 
-```json
 {
  [
     {

@@ -4,13 +4,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/jordiroca94/moviechase-api/utils"
 	"github.com/sashabaranov/go-openai"
 )
@@ -34,38 +32,37 @@ func (h *RecommendHandler) handleGetRecommendation(w http.ResponseWriter, r *htt
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
-	movieName := payload.MovieName
-
-	err := godotenv.Load()
-	if err != nil {
-		log.Println(".env file not found or failed to load:", err)
-	}
 
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	if apiKey == "" {
-		log.Fatalln("OPENAI_API_KEY environment variable not set")
+		log.Println("OPENAI_API_KEY not set")
+		http.Error(w, "Server configuration error", http.StatusInternalServerError)
+		return
 	}
 
 	tplBytes, err := os.ReadFile("service/recommend/prompts/prompt.tpl")
 	if err != nil {
-		log.Fatalf("Failed to read prompt: %v\n", err)
+		log.Printf("Failed to read prompt: %v\n", err)
+		http.Error(w, "Template read error", http.StatusInternalServerError)
+		return
 	}
 
 	tpl, err := template.New("prompt").Parse(string(tplBytes))
 	if err != nil {
-		log.Fatalf("Failed to parse prompt: %v\n", err)
+		log.Printf("Failed to parse template: %v\n", err)
+		http.Error(w, "Template parse error", http.StatusInternalServerError)
+		return
 	}
 
 	var renderedPrompt bytes.Buffer
-	err = tpl.Execute(&renderedPrompt, struct {
-		MovieName string
-	}{
-		MovieName: movieName,
-	})
+	err = tpl.Execute(&renderedPrompt, struct{ MovieName string }{MovieName: payload.MovieName})
 	if err != nil {
-		log.Fatalf("Failed to execute prompt template: %v\n", err)
+		log.Printf("Template execution failed: %v\n", err)
+		http.Error(w, "Template error", http.StatusInternalServerError)
+		return
 	}
 
+	// OpenAI call
 	client := openai.NewClient(apiKey)
 	ctx := context.Background()
 
@@ -80,22 +77,28 @@ func (h *RecommendHandler) handleGetRecommendation(w http.ResponseWriter, r *htt
 		MaxTokens: 1000,
 	}
 
-	stop := utils.StartTimer()
-
 	resp, err := client.CreateChatCompletion(ctx, chatReq)
-	stop()
-
-	fmt.Println()
 	if err != nil {
-		log.Fatalf("OpenAI API error: %v\n", err)
+		log.Printf("OpenAI API error: %v\n", err)
+		http.Error(w, "OpenAI API error", http.StatusInternalServerError)
+		return
 	}
 
-	if len(resp.Choices) > 0 {
-		utils.WriteJSON(w, http.StatusOK, map[string]string{"response": resp.Choices[0].Message.Content})
-
-	} else {
+	if len(resp.Choices) == 0 {
 		http.Error(w, "No recommendations found", http.StatusNotFound)
 		return
 	}
+
+	content := resp.Choices[0].Message.Content
+	cleaned := utils.StripCodeBlock(content)
+
+	var recommendations []map[string]interface{}
+	if err := json.Unmarshal([]byte(cleaned), &recommendations); err != nil {
+		http.Error(w, "Failed to parse recommendations JSON", http.StatusInternalServerError)
+		log.Printf("JSON parse error: %v\nOriginal content:\n%s", err, cleaned)
+		return
+	}
+
+	utils.WriteJSON(w, http.StatusOK, recommendations)
 
 }
