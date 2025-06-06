@@ -27,9 +27,10 @@ Your output must be a **valid JSON object** with exactly 3 recommendations. Each
 - `title`: Name of the movie or show  
 - `year`: Year of release (start year for shows)  
 - `imdb_rating`: IMDb rating (e.g., 8.4)  
-- `type`: `"movie"` or `"show"`  
-- `genre`: A short list of genres  
-- `why_recommended`: A short explanation (1–2 sentences) of why this recommendation fits  
+- `genre`: A short list of genres.
+- `plot`: A brief summary that describes the main storyline or premise of the movie.  
+- `tmdb_id`: The official TMDB ID (The Movie Database) for the movie or show.  
+
 
 ```json
 [
@@ -37,24 +38,24 @@ Your output must be a **valid JSON object** with exactly 3 recommendations. Each
     "title": "Example Title 1",
     "year": 2015,
     "imdb_rating": 8.3,
-    "type": "movie",
     "genre": ["Drama", "Thriller"],
-    "why_recommended": "This film shares a similar psychological depth and suspenseful tone as the input movie."
+    "plot": "An overview of the key events and themes that define the movie."
+    "tmdb_id": 12345
   },
   {
     "title": "Example Title 2",
     "year": 2020,
     "imdb_rating": 8.6,
-    "type": "movie",
     "genre": ["Crime", "Drama"],
-    "why_recommended": "Like the input, it explores moral complexity through strong character development and direction."
+    "plot": "A short description explaining the movie's central plot and characters."
+    "tmdb_id": 67890
   },
   {
     "title": "Example Title 3",
     "year": 1994,
     "imdb_rating": 8.9,
-    "type": "movie",
     "genre": ["Crime", "Drama"],
-    "why_recommended": "Its narrative depth and tone resonate strongly with the atmosphere of the input."
+    "plot": "A gripping crime drama exploring the complex lives of its characters in a morally ambiguous world."
+    "tmdb_id": 11223
   }
 ]
