@@ -26,7 +26,7 @@ Your output must be a **valid JSON object** with exactly 3 recommendations. Each
 
 - `title`: Name of the movie or show  
 - `year`: Year of release (start year for shows)  
-- `imdb_rating`: IMDb rating (e.g., 8.4)  
+- `rating`: The official TMDB ID (The Movie Database) rating (e.g., 8.4)  
 - `type`: `"movie"` or `"show"`  
 - `genre`: A short list of genres.
 - `plot`: A brief summary that describes the main storyline or premise of the movie.  
@@ -38,7 +38,7 @@ Your output must be a **valid JSON object** with exactly 3 recommendations. Each
   {
     "title": "Example Title 1",
     "year": 2015,
-    "imdb_rating": 8.3,
+    "rating": 8.3,
     "type": "movie",
     "genre": ["Drama", "Thriller"],
     "plot": "An overview of the key events and themes that define the movie."
@@ -47,7 +47,7 @@ Your output must be a **valid JSON object** with exactly 3 recommendations. Each
   {
     "title": "Example Title 2",
     "year": 2020,
-    "imdb_rating": 8.6,
+    "rating": 8.6,
     "type": "movie",
     "genre": ["Crime", "Drama"],
     "plot": "A short description explaining the movie's central plot and characters."
@@ -56,7 +56,7 @@ Your output must be a **valid JSON object** with exactly 3 recommendations. Each
   {
     "title": "Example Title 3",
     "year": 1994,
-    "imdb_rating": 8.9,
+    "rating": 8.9,
     "type": "movie",
     "genre": ["Crime", "Drama"],
     "plot": "A gripping crime drama exploring the complex lives of its characters in a morally ambiguous world."
